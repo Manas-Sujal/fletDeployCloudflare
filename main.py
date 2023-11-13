@@ -10,20 +10,21 @@ dest = str(Path.home() / "Downloads")
 
 
 def main(page):
-    def dwnload(e):
-        '''link = new_task.value
-        yt = YouTube(link)
-        yd = yt.streams.get_highest_resolution()
-        yd.download("C:/Users/admin/Downloads")
-        page.add(ft.Text(value="Downloaded", color="green"))
-        page.update()'''
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    label=ft.Text(value=f"", color="green")
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    def dwnloadmp4(e):
+        label.value=""
+        page.update()
         #dest="C:/Users/admin/Downloads"
         YouTube(new_task.value).streams.get_highest_resolution().download(dest)
-        page.add(ft.Text(value="Downloaded", color="green"))
+        label.value=f"Downloaded on {dest}"
         page.update()
 
 
-    def add_clicked(e):
+    def dwnloadmp3(e):
+        label.value=""
+        page.update()
         link = new_task.value
         yt = YouTube(link)
         yd = yt.streams.filter(only_audio=True).first()
@@ -35,17 +36,21 @@ def main(page):
         mp4_no_frame.write_audiofile(new_file, logger=None)
         mp4_no_frame.close()
         os.remove(outfile)
-        page.add(ft.Text(value="Downloaded", color="green"))
+        label.value=f"Downloaded on {dest}"
         page.update()
 
     
     new_task = ft.TextField(hint_text="What is to be downloaded?", width=300)
     #page.window_width=500
     #page.window_height=200
-    page.add(ft.Row(
-        [new_task,ft.ElevatedButton("Download mp3", on_click=add_clicked),ft.ElevatedButton("Download mp4", on_click=dwnload)],
-        alignment=ft.MainAxisAlignment.CENTER
-        )
+    page.add(#ft.Column(
+        #[
+         new_task,
+         ft.Row([ft.ElevatedButton("Download mp3", on_click=dwnloadmp3),
+         ft.ElevatedButton("Download mp4", on_click=dwnloadmp4)],alignment=ft.MainAxisAlignment.CENTER),
+         label#],
+        
+       # )
         )
     page.update()
 
